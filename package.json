@@ -1,0 +1,35 @@
+{
+  "name": "nodejs_typescript_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "start": "tsc && node dist/index.js"
+    },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaiVinay023/nodejs_typescript_api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaiVinay023/nodejs_typescript_api/issues"
+  },
+  "homepage": "https://github.com/SaiVinay023/nodejs_typescript_api#readme",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
