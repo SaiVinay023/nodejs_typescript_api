@@ -65,3 +65,28 @@ export async function deleteUser(req: Request, res: Response, next: NextFunction
     next(err);
   }
 }
+
+export async function joinGroup(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = Number(req.params.id);
+      const groupId = Number(req.params.groupId);
+      await userService.joinGroup(userId, groupId);
+  
+      res.status(200).json({ message: 'User joined group' });
+    } catch (err) {
+      next(err);
+    }
+  }
+  
+  export async function leaveGroup(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = Number(req.params.id);
+      const groupId = Number(req.params.groupId);
+      await userService.leaveGroup(userId, groupId);
+  
+      res.status(200).json({ message: 'User left group' });
+    } catch (err) {
+      next(err);
+    }
+  }
+  
