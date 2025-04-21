@@ -6,6 +6,8 @@ type  UserData = {
     surname: string;
     birth_date: string;
     sex: string;
+    limit: number;
+    offset: number;
   };
 
 export async function createUser(data: UserData) {
@@ -21,14 +23,20 @@ export async function getUserById(id: number) {
 }
 
 export async function listUsers(limit: number, offset: number) {
-  const sql = `SELECT * FROM users LIMIT ? OFFSET ?`; // SQL query
+  const sql = `SELECT * FROM users LIMIT ? OFFSET ?`;
   const countSql = `SELECT COUNT(*) as total FROM users`;
-    
-  const [users, total] = await Promise.all([
-    query(sql, [limit, offset]),
-    query(countSql)
-  ]);  return users; // Return fetched users
+
+  const [users, totalResult] = await Promise.all([
+    query(sql, [limit, offset]), // Fetch users
+    query(countSql), // Fetch total count of users
+  ]);
+
+  const total = totalResult[0].total;
+  const hasMore = offset + users.length < total; // Correctly define `hasMore`
+
+  return { users, total, hasMore };
 }
+
 /*export async function listUsers(limit: number, offset: number) {
     const sql = `
       SELECT * FROM users 

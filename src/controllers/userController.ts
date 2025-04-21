@@ -27,15 +27,18 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
   }
 }
 
-export async function listUsers(req: Request, res: Response, next: NextFunction) {
+/*export async function listUsers(req: Request, res: Response, next: NextFunction) {
     try {
       // Parse with defaults
-      const limit = Math.min(parseInt(req.query.limit as string) || 5, 100); // Max 100 items
-      const offset = parseInt(req.query.offset as string) || 0;
-  
+      const limit = parseInt(req.query.limit as string, 10) || 10;
+        const offset = parseInt(req.query.offset as string, 10) || 0;
+      //const result = await userService.listUsers(limit, offset);
       const result = await userService.listUsers(limit, offset);
-      
-      res.status(200).json({
+        if (result.hasMore) {
+          
+            res.set('Link', `<${req.protocol}://${req.get('host')}${req.originalUrl.split('?')[0]}?limit=${limit}&offset=${offset + limit}>; r}el="next"`);        
+        }res.status(200).json(result);
+     /* res.status(200).json({
         success: true,
         data: result.users,
         pagination: {
@@ -44,11 +47,35 @@ export async function listUsers(req: Request, res: Response, next: NextFunction)
           total: result.total,
           hasMore: result.hasMore
         }
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
+      })*/;
+      export async function listUsers(req: Request, res: Response, next: NextFunction) {
+        try {
+          // Parse query parameters with defaults
+          const limit = parseInt(req.query.limit as string, 10) || 10;
+          const offset = parseInt(req.query.offset as string, 10) || 0;
+      
+          // Fetch users and pagination info from the service layer
+          const { users, total, hasMore } = await userService.listUsers(limit, offset);
+      
+          // Set pagination link if more users exist
+          if (hasMore) {
+            res.set(
+              "Link",
+              `<${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}?limit=${limit}&offset=${offset + limit}>; rel="next"`
+            );
+          }
+      
+          // Send structured JSON response
+          res.status(200).json({
+            success: true,
+            data: users,
+            pagination: { limit, offset, total, hasMore },
+          });
+      
+        } catch (error) {
+          next(error);
+        }
+      }
 
 export async function updateUser(req: Request, res: Response, next: NextFunction) {
   try {
