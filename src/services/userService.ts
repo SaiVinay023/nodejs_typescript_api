@@ -8,8 +8,8 @@ export function getUserById(id: number) {
   return userModel.getUserById(id);
 }
 
-export function listUsers() {
-  return userModel.listUsers();
+export function listUsers(limit: number, offset: number) {
+  return userModel.listUsers(limit, offset);
 }
 
 export function updateUser(id: number, data: any) {

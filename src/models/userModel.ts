@@ -19,11 +19,11 @@ export async function getUserById(id: number) {
   const users = await query(sql, [id]);
   return users[0];
 }
-
-export async function listUsers() {
-  const sql = `SELECT * FROM users ORDER BY id DESC`;
-  return await query(sql);
-}
+export async function listUsers(limit: number, offset: number) {
+    const sql = `SELECT * FROM users LIMIT ? OFFSET ?`;
+    const users = await query(sql, [limit, offset]);
+    return users;
+  }
 
 export async function updateUser(id: number, data: UserData) {
   const sql = `UPDATE users SET name = ?, surname = ?, birth_date = ?, sex = ? WHERE id = ?`;
