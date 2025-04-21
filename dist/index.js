@@ -29,4 +29,3 @@ app.listen(port, () => {
 });
 exports.server = app;
 exports.default = app;
-//# sourceMappingURL=index.js.map

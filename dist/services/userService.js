@@ -62,4 +62,3 @@ function joinGroup(userId, groupId) {
 function leaveGroup(userId, groupId) {
     return userModel.leaveGroup(userId, groupId);
 }
-//# sourceMappingURL=userService.js.map

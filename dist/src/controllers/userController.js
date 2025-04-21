@@ -35,7 +35,6 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = createUser;
 exports.getUserById = getUserById;
-exports.listUsers = listUsers;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
 exports.joinGroup = joinGroup;
@@ -67,17 +66,17 @@ async function getUserById(req, res, next) {
         next(err);
     }
 }
-async function listUsers(req, res, next) {
-    try {
-        const limit = parseInt(req.query.limit) || 10;
-        const offset = parseInt(req.query.offset) || 0;
-        const users = await userService.listUsers(limit, offset);
-        res.status(200).json(users);
-    }
-    catch (err) {
-        next(err);
-    }
-}
+/*export async function listUsers(req: Request, res: Response, next: NextFunction) {
+  try {
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = parseInt(req.query.offset as string) || 0;
+
+    const users = await userService.listUsers(limit, offset);
+    res.status(200).json(users);
+  } catch (err) {
+    next(err);
+  }
+} */
 async function updateUser(req, res, next) {
     try {
         const id = Number(req.params.id);

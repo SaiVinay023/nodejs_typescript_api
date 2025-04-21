@@ -7,11 +7,10 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "ts-node-dev --respawn src/index.ts",
-    "start": "tsc && node dist/index.js",
-    "test": "jest --coverage",
-    "test:watch": "jest --watchAll"
-  },
+  "dev": "ts-node-dev --respawn src/index.ts",
+  "build": "tsc",
+  "start": "npm run build && node dist/index.js"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SaiVinay023/nodejs_typescript_api.git"
@@ -24,12 +23,14 @@
   },
   "homepage": "https://github.com/SaiVinay023/nodejs_typescript_api#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "joi": "^17.13.3",
     "mysql2": "^3.14.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.14.1",

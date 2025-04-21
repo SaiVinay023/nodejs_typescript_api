@@ -33,33 +33,14 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = createUser;
-exports.getUserById = getUserById;
-exports.listUsers = listUsers;
-exports.updateUser = updateUser;
-exports.deleteUser = deleteUser;
-exports.joinGroup = joinGroup;
-exports.leaveGroup = leaveGroup;
-const userModel = __importStar(require("../models/userModel"));
-function createUser(data) {
-    return userModel.createUser(data);
-}
-function getUserById(id) {
-    return userModel.getUserById(id);
-}
-function listUsers(limit, offset) {
-    return userModel.listUsers(limit, offset);
-}
-function updateUser(id, data) {
-    return userModel.updateUser(id, data);
-}
-function deleteUser(id) {
-    return userModel.deleteUser(id);
-}
-function joinGroup(userId, groupId) {
-    return userModel.joinGroup(userId, groupId);
-}
-function leaveGroup(userId, groupId) {
-    return userModel.leaveGroup(userId, groupId);
-}
-//# sourceMappingURL=userService.js.map
+const express_1 = require("express");
+const userController = __importStar(require("../controllers/userController"));
+const router = (0, express_1.Router)();
+router.post('/', userController.createUser);
+router.get('/:id', userController.getUserById);
+//router.get('/', userController.listUsers);
+router.put('/:id', userController.updateUser);
+router.delete('/:id', userController.deleteUser);
+router.post('/join', userController.joinGroup);
+router.post('/leave', userController.leaveGroup);
+exports.default = router;

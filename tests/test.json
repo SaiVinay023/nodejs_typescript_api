@@ -1,0 +1,135 @@
+{
+    "info": {
+      "_postman_id": "a1b2c3d4-e5f6-7890",
+      "name": "User API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Create User",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"John\",\n    \"surname\": \"Doe\",\n    \"birth_date\": \"1990-01-01\",\n    \"sex\": \"male\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:3000/users",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["users"]
+          }
+        }
+      },
+      {
+        "name": "List Users",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:3000/users?limit=10&offset=0",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["users"],
+            "query": [
+              {
+                "key": "limit",
+                "value": "10"
+              },
+              {
+                "key": "offset",
+                "value": "0"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "Get User",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:3000/users/1",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["users", "1"]
+          }
+        }
+      },
+      {
+        "name": "Update User",
+        "request": {
+          "method": "PUT",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"name\": \"John\",\n    \"surname\": \"Smith\",\n    \"birth_date\": \"1990-01-01\",\n    \"sex\": \"male\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:3000/users/1",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["users", "1"]
+          }
+        }
+      },
+      {
+        "name": "Delete User",
+        "request": {
+          "method": "DELETE",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:3000/users/1",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["users", "1"]
+          }
+        }
+      },
+      {
+        "name": "Join Group",
+        "request": {
+          "method": "POST",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:3000/users/1/groups/5",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["users", "1", "groups", "5"]
+          }
+        }
+      },
+      {
+        "name": "Leave Group",
+        "request": {
+          "method": "DELETE",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:3000/users/1/groups/5",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["users", "1", "groups", "5"]
+          }
+        }
+      }
+    ]
+  }
