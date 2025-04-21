@@ -27,17 +27,28 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
   }
 }
 
-/*export async function listUsers(req: Request, res: Response, next: NextFunction) {
-  try {
-    const limit = parseInt(req.query.limit as string) || 10;
-    const offset = parseInt(req.query.offset as string) || 0;
-
-    const users = await userService.listUsers(limit, offset);
-    res.status(200).json(users);
-  } catch (err) {
-    next(err);
+export async function listUsers(req: Request, res: Response, next: NextFunction) {
+    try {
+      // Parse with defaults
+      const limit = Math.min(parseInt(req.query.limit as string) || 5, 100); // Max 100 items
+      const offset = parseInt(req.query.offset as string) || 0;
+  
+      const result = await userService.listUsers(limit, offset);
+      
+      res.status(200).json({
+        success: true,
+        data: result.users,
+        pagination: {
+          limit,
+          offset,
+          total: result.total,
+          hasMore: result.hasMore
+        }
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-} */
 
 export async function updateUser(req: Request, res: Response, next: NextFunction) {
   try {

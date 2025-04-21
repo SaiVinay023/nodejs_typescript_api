@@ -19,11 +19,36 @@ export async function getUserById(id: number) {
   const users = await query(sql, [id]);
   return users[0];
 }
+
 export async function listUsers(limit: number, offset: number) {
-    const sql = `SELECT * FROM users LIMIT ? OFFSET ?`;
-    const users = await query(sql, [limit, offset]);
-    return users;
-  }
+  const sql = `SELECT * FROM users LIMIT ? OFFSET ?`; // SQL query
+  const countSql = `SELECT COUNT(*) as total FROM users`;
+    
+  const [users, total] = await Promise.all([
+    query(sql, [limit, offset]),
+    query(countSql)
+  ]);  return users; // Return fetched users
+}
+/*export async function listUsers(limit: number, offset: number) {
+    const sql = `
+      SELECT * FROM users 
+    LIMIT ? OFFSET ?
+    `;
+    
+    // For proper pagination, get total count
+    const countSql = `SELECT COUNT(*) as total FROM users`;
+    
+    const [users, total] = await Promise.all([
+      query(sql, [limit, offset]),
+      query(countSql)
+    ]);
+  
+    return {
+      users,
+      total: total[0].total,
+      hasMore: offset + limit < total[0].total
+    };
+  } */
 
 export async function updateUser(id: number, data: UserData) {
   const sql = `UPDATE users SET name = ?, surname = ?, birth_date = ?, sex = ? WHERE id = ?`;
