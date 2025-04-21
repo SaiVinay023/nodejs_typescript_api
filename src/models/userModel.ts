@@ -26,11 +26,16 @@ export async function listUsers(limit: number, offset: number) {
   const sql = `SELECT * FROM users LIMIT ? OFFSET ?`;
   const countSql = `SELECT COUNT(*) as total FROM users`;
 
+  if (isNaN(limit) || isNaN(offset)) {
+    throw new Error("Invalid limit or offset type");
+  }
+
   const [users, totalResult] = await Promise.all([
-    query(sql, [limit, offset]), // Fetch users
+    ///query(sql, [Number(limit), Number(offset)]), // Fetch users
+    query(sql),
     query(countSql), // Fetch total count of users
   ]);
-
+ 
   const total = totalResult[0].total;
   const hasMore = offset + users.length < total; // Correctly define `hasMore`
 

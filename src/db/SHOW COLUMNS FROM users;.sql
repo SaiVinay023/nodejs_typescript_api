@@ -1,0 +1,2 @@
+SHOW COLUMNS FROM users;
+SELECT COUNT(*) FROM users;

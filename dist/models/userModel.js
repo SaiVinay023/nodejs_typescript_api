@@ -34,10 +34,40 @@ function getUserById(id) {
 function listUsers(limit, offset) {
     return __awaiter(this, void 0, void 0, function* () {
         const sql = `SELECT * FROM users LIMIT ? OFFSET ?`;
-        const users = yield (0, query_1.query)(sql, [limit, offset]);
-        return users;
+        const countSql = `SELECT COUNT(*) as total FROM users`;
+        if (isNaN(limit) || isNaN(offset)) {
+            throw new Error("Invalid limit or offset type");
+        }
+        const [users, totalResult] = yield Promise.all([
+            ///query(sql, [Number(limit), Number(offset)]), // Fetch users
+            (0, query_1.query)(sql),
+            (0, query_1.query)(countSql), // Fetch total count of users
+        ]);
+        const total = totalResult[0].total;
+        const hasMore = offset + users.length < total; // Correctly define `hasMore`
+        return { users, total, hasMore };
     });
 }
+/*export async function listUsers(limit: number, offset: number) {
+    const sql = `
+      SELECT * FROM users
+    LIMIT ? OFFSET ?
+    `;
+    
+    // For proper pagination, get total count
+    const countSql = `SELECT COUNT(*) as total FROM users`;
+    
+    const [users, total] = await Promise.all([
+      query(sql, [limit, offset]),
+      query(countSql)
+    ]);
+  
+    return {
+      users,
+      total: total[0].total,
+      hasMore: offset + limit < total[0].total
+    };
+  } */
 function updateUser(id, data) {
     return __awaiter(this, void 0, void 0, function* () {
         const sql = `UPDATE users SET name = ?, surname = ?, birth_date = ?, sex = ? WHERE id = ?`;

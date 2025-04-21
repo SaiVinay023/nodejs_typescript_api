@@ -44,6 +44,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = createUser;
 exports.getUserById = getUserById;
+exports.listUsersController = listUsersController;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
 exports.joinGroup = joinGroup;
@@ -80,16 +81,48 @@ function getUserById(req, res, next) {
     });
 }
 /*export async function listUsers(req: Request, res: Response, next: NextFunction) {
-  try {
-    const limit = parseInt(req.query.limit as string) || 10;
-    const offset = parseInt(req.query.offset as string) || 0;
-
-    const users = await userService.listUsers(limit, offset);
-    res.status(200).json(users);
-  } catch (err) {
-    next(err);
-  }
-} */
+    try {
+      // Parse with defaults
+      const limit = parseInt(req.query.limit as string, 10) || 10;
+        const offset = parseInt(req.query.offset as string, 10) || 0;
+      //const result = await userService.listUsers(limit, offset);
+      const result = await userService.listUsers(limit, offset);
+        if (result.hasMore) {
+          
+            res.set('Link', `<${req.protocol}://${req.get('host')}${req.originalUrl.split('?')[0]}?limit=${limit}&offset=${offset + limit}>; r}el="next"`);
+        }res.status(200).json(result);
+     /* res.status(200).json({
+        success: true,
+        data: result.users,
+        pagination: {
+          limit,
+          offset,
+          total: result.total,
+          hasMore: result.hasMore
+        }
+      })*/
+function listUsersController(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const limit = parseInt(req.query.limit, 10) || 10;
+            const offset = parseInt(req.query.offset, 10) || 0;
+            const { users, total, hasMore } = yield userService.listUsers(limit, offset); // call via service
+            if (users.length === 0) {
+                res.status(404).json({ error: "No users found" });
+                return;
+            }
+            res.status(200).json({
+                success: true,
+                data: users,
+                pagination: { total, hasMore, limit, offset },
+            });
+        }
+        catch (error) {
+            console.error("Error in listUsersController:", error);
+            next(error);
+        }
+    });
+}
 function updateUser(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

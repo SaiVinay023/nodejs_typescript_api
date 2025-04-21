@@ -13,3 +13,20 @@ export const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0
 });
+
+export async function query<T = any>(sql: string, values: any[] = []): Promise<T> {
+  try {
+    console.log("Executing SQL:", sql, "With Values:", values); // Debugging log
+    const [result] = await pool.execute(sql, values);
+    return result as T;
+  } catch (err) {
+    if (err instanceof Error) {
+      console.error(`SQL Error: ${err.message}\nQuery: ${sql}\nValues: ${JSON.stringify(values)}`);
+    } else {
+      console.error(`Unexpected Error: ${JSON.stringify(err)}\nQuery: ${sql}\nValues: ${JSON.stringify(values)}`);
+    }
+    throw err;
+  }
+  
+}
+

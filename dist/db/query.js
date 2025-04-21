@@ -14,6 +14,7 @@ const connection_1 = require("./connection");
 function query(sql_1) {
     return __awaiter(this, arguments, void 0, function* (sql, values = []) {
         try {
+            console.log("Executing SQL:", sql, "With Values:", values);
             const [result] = yield connection_1.pool.execute(sql, values);
             return result;
         }

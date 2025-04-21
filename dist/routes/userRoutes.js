@@ -38,7 +38,7 @@ const userController = __importStar(require("../controllers/userController"));
 const router = (0, express_1.Router)();
 router.post('/', userController.createUser);
 router.get('/:id', userController.getUserById);
-//router.get('/', userController.listUsers);
+router.get("/list", userController.listUsersController);
 router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 router.post('/join', userController.joinGroup);
