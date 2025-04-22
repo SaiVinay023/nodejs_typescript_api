@@ -96,6 +96,7 @@ docker-compose up -d
 docker exec -i mysql-server mysql -uroot -pyourpassword < init.sql
 ```
 
+
 ### 5. Run Project in Dev Mode
 ```bash
 npm run dev
