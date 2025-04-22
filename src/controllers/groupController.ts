@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import * as groupService from '../services/groupService';  // Importing the service functions
+import * as userService from '../services/userService'; // Adjust the import
 import { ApiError } from '../utils/apiError';  // Error handling utility
 
 // Controller for creating a new group
@@ -69,5 +70,40 @@ export async function deleteGroup(req: Request, res: Response, next: NextFunctio
     res.status(200).json(result);  // Return success message
   } catch (err) {
     next(err);  // Pass errors to the error handler
+  }
+}
+
+export async function joinGroup(req: Request, res: Response): Promise<void> {
+  const { userId, groupId } = req.params;
+
+  try {
+    const success = await groupService.joinGroup(Number(userId), Number(groupId));
+
+    if (success) {
+      res.status(200).json({ message: 'User successfully joined the group.' });
+    } else {
+      res.status(400).json({ message: 'User is already in the group.' });
+    }
+  } catch (error) {
+    console.error('Error joining group:', error);
+    res.status(500).json({ message: 'Failed to join group' });
+  }
+}
+
+// Leave a group
+export async function leaveGroup(req: Request, res: Response): Promise<void> {
+  const { userId, groupId } = req.params;
+
+  try {
+    const success = await groupService.leaveGroup(Number(userId), Number(groupId));
+
+    if (success) {
+      res.status(200).json({ message: 'User successfully left the group.' });
+    } else {
+      res.status(400).json({ message: 'User is not in the group.' });
+    }
+  } catch (error) {
+    console.error('Error leaving group:', error);
+    res.status(500).json({ message: 'Failed to leave group' });
   }
 }

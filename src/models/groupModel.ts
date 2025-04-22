@@ -63,3 +63,39 @@ export async function deleteGroup(id: number) {
   // Return a success message
   return { message: `Group with ID ${id} deleted successfully` };
 }
+
+export async function joinGroup(userId: number, groupId: number) {
+  const checkSql = `SELECT * FROM user_groups WHERE user_id = ? AND group_id = ?`;
+  const checkValues = [userId, groupId];
+  
+  try {
+    const existingGroup = await query(checkSql, checkValues);
+
+    if (existingGroup.length > 0) {
+      return false; // User is already in this group
+    }
+
+    const insertSql = `INSERT INTO user_groups (user_id, group_id) VALUES (?, ?)`;
+    const insertValues = [userId, groupId];
+
+    const result = await query(insertSql, insertValues);
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error('Error joining group:', error);
+    throw new Error('Failed to join group');
+  }
+}
+
+// Function to leave a group
+export async function leaveGroup(userId: number, groupId: number) {
+  const deleteSql = `DELETE FROM user_groups WHERE user_id = ? AND group_id = ?`;
+  const deleteValues = [userId, groupId];
+
+  try {
+    const result = await query(deleteSql, deleteValues);
+    return result.affectedRows > 0; // Returns true if the delete was successful
+  } catch (error) {
+    console.error('Error leaving group:', error);
+    throw new Error('Failed to leave group');
+  }
+}

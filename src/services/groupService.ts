@@ -19,3 +19,11 @@ export function updateGroup(id: number, name: string) {
 export function deleteGroup(id: number) {
   return groupModel.deleteGroup(id);
 }
+
+export function joinGroup(userId: number, groupId: number) {
+  return groupModel.joinGroup(userId, groupId);
+}
+
+export function leaveGroup(userId: number, groupId: number) {
+  return groupModel.leaveGroup(userId, groupId);
+}

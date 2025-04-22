@@ -1,5 +1,7 @@
 import * as userModel from '../models/userModel';
 import { ApiError } from '../utils/apiError';
+import * as groupModel from '../models/groupModel'; // Correct import from groupModel
+
 
 export function createUser(data: any) {
   return userModel.createUser(data);
@@ -36,10 +38,10 @@ export function deleteUser(id: number) {
   return userModel.deleteUser(id);
 }
 
-export function joinGroup(userId: number, groupId: number) {
-    return userModel.joinGroup(userId, groupId);
-  }
-  
-  export function leaveGroup(userId: number, groupId: number) {
-    return userModel.leaveGroup(userId, groupId);
-  }
+export async function joinUserToGroup(userId: number, groupId: number) {
+  return await groupModel.joinGroup(userId, groupId); // Call the function from groupModel
+}
+
+export async function leaveUserFromGroup(userId: number, groupId: number) {
+  return await groupModel.leaveGroup(userId, groupId); // Call the function from groupModel
+}
