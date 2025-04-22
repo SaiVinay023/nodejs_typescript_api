@@ -1,1 +1,0 @@
-SELECT * FROM users LIMIT 5 OFFSET 0;

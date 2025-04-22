@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { Request, Response, NextFunction } from 'express';
 import userRoutes from './routes/userRoutes';
-import groupRoutes from './routes/groupRoutes';
+import routes from './routes/groupRoutes';
 import cors from 'cors';
 
 
@@ -14,7 +14,7 @@ app.use(express.json());
 
 // Routes
 app.use('/users', userRoutes);
-app.use('/api/groups', groupRoutes);
+app.use('/api/groups', routes);
 
 // Global Error Handler (Optional)
 

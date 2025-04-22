@@ -58,8 +58,9 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
        
         export async function listUsersController(req: Request, res: Response, next: NextFunction): Promise<void> {
             try {
-              const limit = parseInt(req.query.limit as string, 10) || 10;
-              const offset = parseInt(req.query.offset as string, 10) || 0;
+              const limit = Math.min(parseInt(req.query.limit as string, 10) || 10, 100);  // max limit of 100
+              const offset = Math.max(parseInt(req.query.offset as string, 10) || 0, 0);  // ensure offset is at least 0
+
           
               const { users, total, hasMore } = await userService.listUsers(limit, offset);
           
