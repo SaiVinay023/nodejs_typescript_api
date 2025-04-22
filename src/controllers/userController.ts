@@ -61,23 +61,21 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
               const limit = parseInt(req.query.limit as string, 10) || 10;
               const offset = parseInt(req.query.offset as string, 10) || 0;
           
-              const { users, total, hasMore } = await userService.listUsers(limit, offset); // call via service
-          
-              if (users.length === 0) {
-                res.status(404).json({ error: "No users found" });
-                return;
-              }
+              const { users, total, hasMore } = await userService.listUsers(limit, offset);
           
               res.status(200).json({
                 success: true,
                 data: users,
                 pagination: { total, hasMore, limit, offset },
+                message: users.length === 0 ? "No users found" : undefined
               });
             } catch (error) {
-              console.error("Error in listUsersController:", error);
               next(error);
             }
           }
+          
+          
+          
           
 
 export async function updateUser(req: Request, res: Response, next: NextFunction) {

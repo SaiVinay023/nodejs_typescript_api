@@ -1,0 +1,19 @@
+[
+    {
+      "name": "admin",
+      "description": "Administrators with full access"
+    },
+    {
+      "name": "developer",
+      "description": "Developers with code and deployment access"
+    },
+    {
+      "name": "staff",
+      "description": "Staff users with limited access"
+    },
+    {
+      "name": "guest",
+      "description": "Guest users with read-only access"
+    }
+  ]
+  

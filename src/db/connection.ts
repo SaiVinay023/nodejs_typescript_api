@@ -30,3 +30,6 @@ export async function query<T = any>(sql: string, values: any[] = []): Promise<T
   
 }
 
+pool.getConnection()
+  .then(() => console.log('Database connected successfully'))
+  .catch((err) => console.error('Database connection failed:', err));

@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "tsc",
-    "start": "npm run build && node dist/index.js"
+    "start": "npm run build && node dist/index.js",
+    "seed:groups": "ts-node src/seedGroups.ts"
   },
   "repository": {
     "type": "git",

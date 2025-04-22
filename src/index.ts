@@ -1,19 +1,22 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import { Request, Response, NextFunction } from 'express';
 import userRoutes from './routes/userRoutes';
+import groupRoutes from './routes/groupRoutes';
 import cors from 'cors';
+
+
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
-app.use(cors());
 app.use(express.json());
 
 // Routes
 app.use('/users', userRoutes);
+app.use('/api/groups', groupRoutes);
 
 // Global Error Handler (Optional)
-import { Request, Response, NextFunction } from 'express';
 
 //app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   //console.error(err);
