@@ -9,23 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.query = query;
-const connection_1 = require("./connection");
-function query(sql_1) {
-    return __awaiter(this, arguments, void 0, function* (sql, values = []) {
+const connection_1 = require("./db/connection");
+function dropTables() {
+    return __awaiter(this, void 0, void 0, function* () {
         try {
-            console.log("Executing SQL:", sql, "With Values:", values);
-            const [result] = yield connection_1.pool.execute(sql, values);
-            return result;
+            // SQL queries to drop the tables if they exist
+            const dropGroupsTableQuery = `DROP TABLE IF EXISTS groups;`;
+            const dropUserGroupsTableQuery = `DROP TABLE IF EXISTS user_groups;`;
+            // Execute the queries
+            yield connection_1.pool.execute(dropGroupsTableQuery);
+            yield connection_1.pool.execute(dropUserGroupsTableQuery);
+            console.log('Tables dropped successfully');
         }
         catch (err) {
-            if (err instanceof Error) {
-                console.error(`SQL Error: ${err.message}\nQuery: ${sql}\nValues: ${JSON.stringify(values)}`);
-            }
-            else {
-                console.error(`SQL Error: ${String(err)}\nQuery: ${sql}\nValues: ${JSON.stringify(values)}`);
-            }
-            throw err;
+            console.error('Error dropping tables:', err);
         }
     });
 }
+// Call the function to drop the tables
+dropTables();

@@ -14,4 +14,3 @@ function validateUser(user) {
     });
     return schema.validate(user);
 }
-//# sourceMappingURL=userValidation.js.map

@@ -14,7 +14,7 @@ app.use(cors());
 
 // Routes
 app.use('/users', userRoutes);
-app.use('/api/groups', groupRoutes);
+app.use('/groups', groupRoutes);
 
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

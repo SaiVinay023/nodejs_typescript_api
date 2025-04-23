@@ -32,23 +32,35 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = createUser;
 exports.getUserById = getUserById;
 exports.listUsers = listUsers;
 exports.updateUser = updateUser;
 exports.deleteUser = deleteUser;
-exports.joinGroup = joinGroup;
-exports.leaveGroup = leaveGroup;
+exports.joinUserToGroup = joinUserToGroup;
+exports.leaveUserFromGroup = leaveUserFromGroup;
 const userModel = __importStar(require("../models/userModel"));
+const groupModel = __importStar(require("../models/groupModel")); // Correct import from groupModel
 function createUser(data) {
-    return userModel.createUser(data);
+    return userModel.createUser(data); // Pass the user data to the model
 }
 function getUserById(id) {
     return userModel.getUserById(id);
 }
 function listUsers(limit, offset) {
-    return userModel.listUsers(limit, offset);
+    return __awaiter(this, void 0, void 0, function* () {
+        return userModel.listUsers(limit, offset); // Pass limit and offset to the model
+    });
 }
 function updateUser(id, data) {
     return userModel.updateUser(id, data);
@@ -56,10 +68,13 @@ function updateUser(id, data) {
 function deleteUser(id) {
     return userModel.deleteUser(id);
 }
-function joinGroup(userId, groupId) {
-    return userModel.joinGroup(userId, groupId);
+function joinUserToGroup(userId, groupId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield groupModel.joinGroup(userId, groupId); // Call the function from groupModel
+    });
 }
-function leaveGroup(userId, groupId) {
-    return userModel.leaveGroup(userId, groupId);
+function leaveUserFromGroup(userId, groupId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield groupModel.leaveGroup(userId, groupId); // Call the function from groupModel
+    });
 }
-//# sourceMappingURL=userService.js.map

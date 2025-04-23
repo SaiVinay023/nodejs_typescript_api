@@ -32,98 +32,127 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = createUser;
 exports.getUserById = getUserById;
+exports.listUsersController = listUsersController;
 exports.updateUser = updateUser;
+exports.softDeleteUser = softDeleteUser;
 exports.deleteUser = deleteUser;
-exports.joinGroup = joinGroup;
-exports.leaveGroup = leaveGroup;
 const userService = __importStar(require("../services/userService"));
 const userValidation_1 = require("../validations/userValidation");
 const apiError_1 = require("../utils/apiError");
-async function createUser(req, res, next) {
-    try {
-        const { error, value } = (0, userValidation_1.validateUser)(req.body);
-        if (error)
-            return next(new apiError_1.ApiError(error.details[0].message, 400));
-        const result = await userService.createUser(value);
-        res.status(201).json({ id: result.insertId, message: 'User created successfully' });
-    }
-    catch (err) {
-        next(err);
-    }
+function createUser(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const { error, value } = (0, userValidation_1.validateUser)(req.body);
+            if (error) {
+                return next(new apiError_1.ApiError(error.details[0].message, 400));
+            }
+            const user = yield userService.createUser(value);
+            res.status(201).json({
+                id: user.id,
+                name: user.name,
+                surname: user.surname,
+                birth_date: user.birth_date,
+                sex: user.sex,
+                message: 'User created successfully',
+            });
+        }
+        catch (err) {
+            next(err); // Pass to error handler middleware
+        }
+    });
 }
-async function getUserById(req, res, next) {
-    try {
-        const id = Number(req.params.id);
-        const user = await userService.getUserById(id);
-        if (!user)
-            return next(new apiError_1.ApiError('User not found', 404));
-        res.status(200).json(user);
-    }
-    catch (err) {
-        next(err);
-    }
+// Get user by ID
+function getUserById(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const id = Number(req.params.id);
+            // Validate if ID is a valid number
+            if (isNaN(id) || id <= 0) {
+                return next(new apiError_1.ApiError('Invalid user ID', 400));
+            }
+            const user = yield userService.getUserById(id);
+            // if (!user) return next(new ApiError('User not found', 404));  // Handle case where user does not exist
+            if (!user)
+                throw new Error('User not found');
+            res.status(200).json(user);
+        }
+        catch (err) {
+            next(err); // Pass any error to the global error handler
+        }
+    });
 }
-/*export async function listUsers(req: Request, res: Response, next: NextFunction) {
-  try {
-    const limit = parseInt(req.query.limit as string) || 10;
-    const offset = parseInt(req.query.offset as string) || 0;
-
-    const users = await userService.listUsers(limit, offset);
-    res.status(200).json(users);
-  } catch (err) {
-    next(err);
-  }
-} */
-async function updateUser(req, res, next) {
-    try {
-        const id = Number(req.params.id);
-        const { error, value } = (0, userValidation_1.validateUser)(req.body);
-        if (error)
-            return next(new apiError_1.ApiError(error.details[0].message, 400));
-        const updated = await userService.updateUser(id, value);
-        if (!updated)
-            return next(new apiError_1.ApiError('User not found', 404));
-        res.status(200).json({ message: 'User updated successfully' });
-    }
-    catch (err) {
-        next(err);
-    }
+// List users with pagination
+function listUsersController(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const limit = parseInt(req.query.limit, 10) || 10;
+            const offset = parseInt(req.query.offset, 10) || 0;
+            const result = yield userService.listUsers(limit, offset);
+            res.status(200).json(result); // Includes { users, total, hasMore }
+        }
+        catch (err) {
+            next(err);
+        }
+    });
 }
-async function deleteUser(req, res, next) {
-    try {
-        const id = Number(req.params.id);
-        const deleted = await userService.deleteUser(id);
-        if (!deleted)
-            return next(new apiError_1.ApiError('User not found', 404));
-        res.status(204).send();
-    }
-    catch (err) {
-        next(err);
-    }
+function updateUser(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const id = Number(req.params.id);
+            const { error, value } = (0, userValidation_1.validateUser)(req.body);
+            if (error)
+                return next(new apiError_1.ApiError(error.details[0].message, 400));
+            const updated = yield userService.updateUser(id, value);
+            if (!updated)
+                return next(new apiError_1.ApiError('User not found', 404));
+            res.status(200).json({ message: 'User updated successfully' });
+        }
+        catch (err) {
+            next(err);
+        }
+    });
 }
-async function joinGroup(req, res, next) {
-    try {
-        const userId = Number(req.params.id);
-        const groupId = Number(req.params.groupId);
-        await userService.joinGroup(userId, groupId);
-        res.status(200).json({ message: 'User joined group' });
-    }
-    catch (err) {
-        next(err);
-    }
+function softDeleteUser(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const id = Number(req.params.id);
+            // Call service to perform soft delete
+            const success = yield userService.softDeleteUser(id);
+            if (!success) {
+                return next(new apiError_1.ApiError('User not found for soft delete', 404));
+            }
+            res.status(200).json({ message: 'User soft-deleted successfully' });
+        }
+        catch (err) {
+            next(err);
+        }
+    });
 }
-async function leaveGroup(req, res, next) {
-    try {
-        const userId = Number(req.params.id);
-        const groupId = Number(req.params.groupId);
-        await userService.leaveGroup(userId, groupId);
-        res.status(200).json({ message: 'User left group' });
-    }
-    catch (err) {
-        next(err);
-    }
+function deleteUser(req, res, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const id = Number(req.params.id);
+            // Call service to perform hard delete
+            const success = yield userService.deleteUser(id);
+            if (!success) {
+                return next(new apiError_1.ApiError('User not found for hard delete', 404));
+            }
+            res.status(200).json({ message: 'User deleted successfully' });
+        }
+        catch (err) {
+            next(err);
+        }
+    });
 }
-//# sourceMappingURL=userController.js.map

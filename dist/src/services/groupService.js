@@ -32,17 +32,33 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const userController = __importStar(require("../controllers/userController"));
-const userRouter = express_1.default.Router();
-userRouter.post('/', userController.createUser);
-userRouter.get('/:id', userController.getUserById);
-userRouter.put('/:id', userController.updateUser);
-userRouter.delete('/:id', userController.deleteUser);
-userRouter.get('/', userController.listUsersController);
-userRouter.put('/:id/soft', userController.softDeleteUser); // Soft delete route
-exports.default = userRouter;
+exports.createGroup = createGroup;
+exports.getAllGroups = getAllGroups;
+exports.getGroupById = getGroupById;
+exports.updateGroup = updateGroup;
+exports.deleteGroup = deleteGroup;
+exports.joinGroup = joinGroup;
+exports.leaveGroup = leaveGroup;
+const groupModel = __importStar(require("../models/groupModel"));
+function createGroup(name) {
+    return groupModel.createGroup(name);
+}
+function getAllGroups() {
+    return groupModel.getAllGroups();
+}
+function getGroupById(id) {
+    return groupModel.getGroupById(id);
+}
+function updateGroup(id, name) {
+    return groupModel.updateGroup(id, name);
+}
+function deleteGroup(id) {
+    return groupModel.deleteGroup(id);
+}
+function joinGroup(userId, groupId) {
+    return groupModel.joinGroup(userId, groupId);
+}
+function leaveGroup(userId, groupId) {
+    return groupModel.leaveGroup(userId, groupId);
+}

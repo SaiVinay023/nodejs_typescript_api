@@ -9,5 +9,6 @@ userRouter.post('/', userController.createUser);
 userRouter.get('/:id', userController.getUserById);
 userRouter.put('/:id', userController.updateUser);
 userRouter.delete('/:id', userController.deleteUser);
-userRouter.get('/', userController.listUsersController); // Assuming you want to list all users
+userRouter.get('/', userController.listUsersController);
+userRouter.put('/:id/soft', userController.softDeleteUser); // Soft delete route
 export default userRouter;

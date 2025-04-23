@@ -32,15 +32,17 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const userController = __importStar(require("../controllers/userController"));
-const router = (0, express_1.Router)();
-router.post('/', userController.createUser);
-router.get('/:id', userController.getUserById);
-router.get("/list", userController.listUsersController);
-router.put('/:id', userController.updateUser);
-router.delete('/:id', userController.deleteUser);
-router.post('/join', userController.joinGroup);
-router.post('/leave', userController.leaveGroup);
+const express_1 = __importDefault(require("express"));
+const groupController = __importStar(require("../controllers/groupController"));
+const router = express_1.default.Router();
+router.post('/', groupController.createGroup);
+router.get('/', groupController.getAllGroups);
+router.put('/:id', groupController.updateGroup);
+router.delete('/:id', groupController.deleteGroup);
+router.delete('/:userId/groups/:groupId', groupController.leaveGroup);
+router.post('/:userId/groups/:groupId', groupController.joinGroup);
 exports.default = router;
