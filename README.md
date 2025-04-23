@@ -1,7 +1,7 @@
 # Node.js + TypeScript User Management Service
 
 ## ✨ Project Overview
-We developed a modular, scalable backend service using **Node.js + TypeScript + MySQL**. The service provides RESTful APIs to manage users and user-group relationships, along with robust error handling, input validation, and clean layered architecture.
+I  developed a modular, scalable backend service using **Node.js + TypeScript + MySQL**. The service provides RESTful APIs to manage users and user-group relationships, along with robust error handling, input validation, and clean layered architecture.
 
 This project was approached as a **experienced developer** would: with a clean architecture, separation of concerns, strong type safety, security best practices, testing, and Docker-based environment setup.
 
@@ -128,6 +128,10 @@ git clone https://github.com/your-repo/nodejs_typescript_api.git
 cd nodejs_typescript_api
 npm install
 
+//environmentsetup
+
+npm install -g typescript
+
 # 2. Create .env
 echo "PORT=3000
 DB_HOST=localhost
@@ -136,7 +140,7 @@ DB_USER=root
 DB_PASS=yourpassword
 DB_NAME=node_service" > .env
 
-# 3. Start DB
+# 3. Start DB / docker file present in db folder
 docker-compose up -d
 
 # 4. Init DB

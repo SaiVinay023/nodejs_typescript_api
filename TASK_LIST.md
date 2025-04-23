@@ -8,6 +8,7 @@
 - [x] Create `.env` for database credentials
 - [x] Write `init.sql` to create tables: users, groups, user_groups
 
+
 ## 👤 User Module
 - [x] Create User (POST `/users`)
 - [x] Get Single User (GET `/users/:id`)
@@ -22,16 +23,16 @@
 - [x] Delete Group (DELETE `/groups/:id`)
 
 ## 🔄 User-Group Relations
-- [x] Join Group (POST `/users/:id/groups/:groupId`)
-- [x] Leave Group (DELETE `/users/:id/groups/:groupId`)
-- [ ] List User’s Groups (GET `/users/:id/groups`)
-- [ ] List Group’s Users (GET `/groups/:id/users`)
+- [x] Join Group (POST `/groups/:id/groups/:groupId`)
+- [x] Leave Group (DELETE `/groups/:id/groups/:groupId`)
 
 ## 🧪 Testing
+- [x] used postman for testing, json file in tests
+- [x] test using curl, execute api_requests.sh
 - [x] Configure Jest and Supertest
-- [x] Write tests for user endpoints
-- [x] Write tests for group endpoints
-- [ ] Add tests for join/leave group
+- [x] Write tests for user endpoints user.test.ts
+- [x] Write tests for group endpoints groups.test.ts
+- [x] tests for join/leave group
 
 ## 🧠 Code Structure & Refactoring
 - [x] Setup layered architecture: controller → service → model
@@ -46,11 +47,3 @@
 - [x] Resolve TypeScript module errors (`is not a module`)
 - [x] Fix request parsing errors (e.g., undefined body)
 - [x] Resolve Docker + CORS integration issues
-
-## 📦 Enhancements / Roadmap
-- [ ] Add Swagger API documentation
-- [ ] Add role-based access (admin, staff, developer)
-- [ ] Implement user authentication (JWT)
-- [ ] Add CI pipeline using GitHub Actions
-- [ ] Create seed script for default users/groups
-- [ ] Deploy backend using Dockerfile or Railway
