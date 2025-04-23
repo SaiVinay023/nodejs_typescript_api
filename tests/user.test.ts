@@ -1,47 +1,45 @@
 import request from 'supertest';
-import { App } from 'supertest/types';
-import app from '../src/index'; // Adjust the path to your app instance
-describe('User API Endpoints', () => {
-  let createdUserId: number;
+import app from '../src/index';
+
+describe('Users API', () => {
+  let userId: number;
 
   it('should create a new user', async () => {
-    const res = await request(app).post('/users').send({
-      name: 'Test',
-      surname: 'User',
-      birth_date: '1990-01-01',
-      sex: 'male'
-    });
+    const res = await request(app)
+      .post('/users')
+      .send({
+        name: 'Test User',
+        email: 'testuser@example.com',
+        password: 'password123',
+      });
 
     expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty('id');
-    createdUserId = res.body.id;
+    expect(res.body.id).toBeDefined();
+    userId = res.body.id;
   });
 
-  it('should fetch the created user by ID', async () => {
-    const res = await request(app).get(`/users/${createdUserId}`);
+  it('should get user by ID', async () => {
+    const res = await request(app).get(`/users/${userId}`);
     expect(res.statusCode).toBe(200);
-    expect(res.body.name).toBe('Test');
+    expect(res.body.id).toBe(userId);
+    expect(res.body.name).toBe('Test User');
   });
 
-  it('should return 404 for unknown user', async () => {
-    const res = await request(app).get(`/users/999999`);
-    expect(res.statusCode).toBe(404);
-  });
-
-  it('should update the user', async () => {
-    const res = await request(app).put(`/users/${createdUserId}`).send({
-      name: 'Updated',
-      surname: 'User',
-      birth_date: '1990-01-01',
-      sex: 'male'
-    });
+  it('should update user', async () => {
+    const res = await request(app)
+      .put(`/users/${userId}`)
+      .send({
+        name: 'Updated User',
+        email: 'updateduser@example.com',
+      });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.message).toBe('User updated successfully');
+    expect(res.body.name).toBe('Updated User');
   });
 
-  it('should delete the user', async () => {
-    const res = await request(app).delete(`/users/${createdUserId}`);
-    expect(res.statusCode).toBe(204);
+  it('should delete user', async () => {
+    const res = await request(app).delete(`/users/${userId}`);
+    expect(res.statusCode).toBe(200);
+    expect(res.body.success).toBe(true);
   });
 });

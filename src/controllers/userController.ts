@@ -26,19 +26,16 @@ export async function createUser(req: Request, res: Response, next: NextFunction
   }
 }
 
-// Get user by ID
 export async function getUserById(req: Request, res: Response, next: NextFunction) {
   try {
     const id = Number(req.params.id);
 
-    // Validate if ID is a valid number
     if (isNaN(id) || id <= 0) {
       return next(new ApiError('Invalid user ID', 400));
     }
 
     const user = await userService.getUserById(id);
 
-   // if (!user) return next(new ApiError('User not found', 404));  // Handle case where user does not exist
    if (!user) throw new Error('User not found');
 
     res.status(200).json(user);
@@ -47,23 +44,9 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
   }
 }
 
-// List users with pagination
-/*export async function listUsersController(req: Request, res: Response, next: NextFunction) {
-  try {
-    const limit = parseInt(req.query.limit as string, 10) || 10;
-    const offset = parseInt(req.query.offset as string, 10) || 0;
-
-    const result = await userService.listUsers(limit, offset);
-
-    res.status(200).json(result);  // Includes { users, total, hasMore }
-  } catch (err) {
-    next(err);
-  }
-} */
-
+// Get all users with pagination
   export async function listUsersController(req: Request, res: Response, next: NextFunction) {
     try {
-      // Check if pagination query params are present
       const { limit, offset } = req.query;
   
       const limitValue = limit ? parseInt(limit as string, 10) : undefined;
@@ -72,7 +55,7 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
       const result = await userService.listUsers(limitValue, offsetValue); // Call service to get users
       res.status(200).json(result); // Return the users, total count, and pagination info
     } catch (err) {
-      next(err);  // Handle errors
+      next(err); 
     }
   }
 export async function updateUser(req: Request, res: Response, next: NextFunction) {

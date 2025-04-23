@@ -1,4 +1,6 @@
 import * as groupModel from '../models/groupModel';
+import * as userModel from '../models/userModel';
+
 
 export function createGroup(name: string) {
   return groupModel.createGroup(name);
@@ -20,10 +22,24 @@ export function deleteGroup(id: number) {
   return groupModel.deleteGroup(id);
 }
 
-export function joinGroup(userId: number, groupId: number) {
-  return groupModel.joinGroup(userId, groupId);
+export async function addUserToGroup(groupId: number, userId: number): Promise<boolean> {
+  const group = await groupModel.getGroupById(groupId);
+  const user = await userModel.getUserById(userId);
+
+  if (!group || !user) {
+    return false;
+  }
+
+  return groupModel.addUserToGroup(groupId, userId);
 }
 
-export function leaveGroup(userId: number, groupId: number) {
-  return groupModel.leaveGroup(userId, groupId);
+export async function removeUserFromGroup(groupId: number, userId: number): Promise<boolean> {
+  const group = await groupModel.getGroupById(groupId);
+  const user = await userModel.getUserById(userId);
+
+  if (!group || !user) {
+    return false;
+  }
+
+  return groupModel.removeUserFromGroup(groupId, userId);
 }

@@ -58,30 +58,13 @@ export async function getUserById(id: number): Promise<UserData> {
 
   const user = userResult[0];
 
-  // Query for groups
   const groups = await query<GroupData[]>(groupSql, [id]);
   user.groups = groups.length > 0 ? groups : [];
 
   return user;
 }
 
-/*export async function listUsers(limit: number, offset: number): Promise<{ users: UserData[], total: number, hasMore: boolean }> {
-  const sql = `SELECT * FROM users WHERE deleted_at IS NULL LIMIT ? OFFSET ?`;
-  const users = await query<UserData[]>(sql, [limit, offset]);
-
-  const totalResult = await query<{ total: number }[]>(`SELECT COUNT(*) AS total FROM users WHERE deleted_at IS NULL`);
-  const total = totalResult[0]?.total || 0;
-  const hasMore = offset + users.length < total;
-
-  return { users, total, hasMore };
-} */
-
-  /*export async function listUsers(): Promise<UserData[]> {
-    const sql = `SELECT * FROM users`; // No limit and offset
-    const result = await query(sql);
-    return result;
-  } */
-    export async function listUsers(limit?: number, offset?: number): Promise<{ users: UserData[], total: number, hasMore: boolean }> {
+export async function listUsers(limit?: number, offset?: number): Promise<{ users: UserData[], total: number, hasMore: boolean }> {
       let sql = 'SELECT * FROM users';
       
       if (limit !== undefined && offset !== undefined) {

@@ -10,5 +10,5 @@ userRouter.get('/:id', userController.getUserById);
 userRouter.put('/:id', userController.updateUser);
 userRouter.delete('/:id', userController.deleteUser);
 userRouter.get('/', userController.listUsersController);
-userRouter.put('/:id/soft', userController.softDeleteUser); // Soft delete route
+userRouter.put('/:id/soft', userController.softDeleteUser); 
 export default userRouter;
