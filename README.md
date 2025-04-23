@@ -272,5 +272,3 @@ npm test
 
 ---
 
-Let me know if you want to export this as PDF or Markdown, or also generate the README + Task List next ✅
-

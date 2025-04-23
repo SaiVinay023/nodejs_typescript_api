@@ -1,20 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
-import * as groupService from '../services/groupService';  // Importing the service functions
-import * as userService from '../services/userService'; // Adjust the import
-import { ApiError } from '../utils/apiError';  // Error handling utility
+import * as groupService from '../services/groupService'; 
+
+import { ApiError } from '../utils/apiError';  
 
 export async function createGroup(req: Request, res: Response, next: NextFunction) {
   try {
-    const { name } = req.body;  // Extract group name from request body
-    if (!name) return next(new ApiError('Group name is required', 400));  // Ensure name is provided
+    const { name } = req.body;  
+    if (!name) return next(new ApiError('Group name is required', 400));  
 
-    const group = await groupService.createGroup(name);  // Call service to create group
+    const group = await groupService.createGroup(name);  
     res.status(201).json({
       message: 'Group created successfully',
       group, 
     });
   } catch (err) {
-    next(err);  // Pass any errors to the error handler
+    next(err); 
   }
 }
 
@@ -42,30 +42,29 @@ export async function getGroupById(req: Request, res: Response, next: NextFuncti
 
 export async function updateGroup(req: Request, res: Response, next: NextFunction) {
   try {
-    const groupId = parseInt(req.params.id);  // Extract ID from request parameters
-    const { name } = req.body;  // Extract group name from request body
+    const groupId = parseInt(req.params.id);  
+    const { name } = req.body;  
     
-    if (!name) return next(new ApiError('Group name is required', 400));  // Ensure name is provided
+    if (!name) return next(new ApiError('Group name is required', 400));  
 
-    const updatedGroup = await groupService.updateGroup(groupId, name);  // Call service to update group
+    const updatedGroup = await groupService.updateGroup(groupId, name); 
     res.status(200).json({
       message: 'Group updated successfully',
-      group: updatedGroup,  // Return updated group in the response
+      group: updatedGroup, 
     });
   } catch (err) {
     next(err);  
   }
 }
 
-// Controller for deleting a group
 export async function deleteGroup(req: Request, res: Response, next: NextFunction) {
   try {
-    const groupId = parseInt(req.params.id);  // Extract ID from request parameters
-    const result = await groupService.deleteGroup(groupId);  // Call service to delete group
+    const groupId = parseInt(req.params.id);  
+    const result = await groupService.deleteGroup(groupId);  
     
-    res.status(200).json(result);  // Return success message
+    res.status(200).json(result); 
   } catch (err) {
-    next(err);  // Pass errors to the error handler
+    next(err); 
   }
 }
 

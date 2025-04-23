@@ -22,7 +22,7 @@ export async function createUser(req: Request, res: Response, next: NextFunction
       message: 'User created successfully',
     });
   } catch (err) {
-    next(err); // Pass to error handler middleware
+    next(err);
   }
 }
 
@@ -40,7 +40,7 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
 
     res.status(200).json(user);
   } catch (err) {
-    next(err);  // Pass any error to the global error handler
+    next(err);  
   }
 }
 
@@ -52,8 +52,8 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
       const limitValue = limit ? parseInt(limit as string, 10) : undefined;
       const offsetValue = offset ? parseInt(offset as string, 10) : undefined;
   
-      const result = await userService.listUsers(limitValue, offsetValue); // Call service to get users
-      res.status(200).json(result); // Return the users, total count, and pagination info
+      const result = await userService.listUsers(limitValue, offsetValue);
+      res.status(200).json(result); 
     } catch (err) {
       next(err); 
     }

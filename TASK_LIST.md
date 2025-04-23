@@ -8,7 +8,6 @@
 - [x] Create `.env` for database credentials
 - [x] Write `init.sql` to create tables: users, groups, user_groups
 
-
 ## 👤 User Module
 - [x] Create User (POST `/users`)
 - [x] Get Single User (GET `/users/:id`)
@@ -47,3 +46,11 @@
 - [x] Resolve TypeScript module errors (`is not a module`)
 - [x] Fix request parsing errors (e.g., undefined body)
 - [x] Resolve Docker + CORS integration issues
+
+## 📦 Enhancements / Roadmap
+- [ ] Add Swagger API documentation
+- [ ] Add role-based access (admin, staff, developer)
+- [ ] Implement user authentication (JWT)
+- [ ] Add CI pipeline using GitHub Actions
+- [ ] Create seed script for default users/groups
+- [ ] Deploy backend using Dockerfile or Railway
