@@ -10,8 +10,11 @@ export async function createUser(req: Request, res: Response, next: NextFunction
     const { error, value } = validateUser(req.body);
     if (error) return next(new ApiError(error.details[0].message, 400));
 
-    const result = await userService.createUser(value);
-    res.status(201).json({ id: result.insertId, message: 'User created successfully' });
+    const user = await userService.createUser(value);
+
+    const insertId = user.id;
+
+    res.status(201).json({ id: insertId, message: 'User created successfully' });
   } catch (err) {
     next(err);
   }
@@ -27,43 +30,12 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
   } catch (err) {
     next(err);
   }
-}
-
-/*export async function listUsers(req: Request, res: Response, next: NextFunction) {
-    try {
-      // Parse with defaults
-      const limit = parseInt(req.query.limit as string, 10) || 10;
-        const offset = parseInt(req.query.offset as string, 10) || 0;
-      //const result = await userService.listUsers(limit, offset);
-      const result = await userService.listUsers(limit, offset);
-        if (result.hasMore) {
-          
-            res.set('Link', `<${req.protocol}://${req.get('host')}${req.originalUrl.split('?')[0]}?limit=${limit}&offset=${offset + limit}>; r}el="next"`);        
-        }res.status(200).json(result);
-     /* res.status(200).json({
-        success: true,
-        data: result.users,
-        pagination: {
-          limit,
-          offset,
-          total: result.total,
-          hasMore: result.hasMore
-        }
-      })*/
-      
-
-        
-        
-        
-       
-        export async function listUsersController(req: Request, res: Response, next: NextFunction): Promise<void> {
+}            
+  export async function listUsersController(req: Request, res: Response, next: NextFunction): Promise<void> {
             try {
               const limit = Math.min(parseInt(req.query.limit as string, 10) || 10, 100);  // max limit of 100
-              const offset = Math.max(parseInt(req.query.offset as string, 10) || 0, 0);  // ensure offset is at least 0
-
-          
+              const offset = Math.max(parseInt(req.query.offset as string, 10) || 0, 0);  // ensure offset is at least 
               const { users, total, hasMore } = await userService.listUsers(limit, offset);
-          
               res.status(200).json({
                 success: true,
                 data: users,
@@ -75,7 +47,8 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
             }
           }
           
-          
+          export { listUsersController as listUsers };
+   
           
           
 

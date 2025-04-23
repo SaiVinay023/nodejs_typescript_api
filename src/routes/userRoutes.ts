@@ -7,7 +7,6 @@ const userRouter = express.Router();
 
 userRouter.post('/', userController.createUser);
 userRouter.get('/:id', userController.getUserById);
-userRouter.get("/list", userController.listUsersController);
 userRouter.put('/:id', userController.updateUser);
 userRouter.delete('/:id', userController.deleteUser);
 userRouter.get('/', userController.listUsersController); // Assuming you want to list all users
