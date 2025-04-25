@@ -1,4 +1,6 @@
-# Node.js + TypeScript User Management Service
+# Node.js + TypeScript User Management Service 
+
+check the branch for redis and rev ai api integration setup - under progress
 
 ## ✨ Project Overview
 I  developed a modular, scalable backend service using **Node.js + TypeScript + MySQL**. The service provides RESTful APIs to manage users and user-group relationships, along with robust error handling, input validation, and clean layered architecture.
