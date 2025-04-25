@@ -6,6 +6,14 @@
   "directories": {
     "test": "tests"
   },
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2017",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "tsc",
@@ -26,12 +34,16 @@
   },
   "homepage": "https://github.com/SaiVinay023/nodejs_typescript_api#readme",
   "dependencies": {
+    "@deepgram/sdk": "^3.12.1",
     "arg": "^5.0.2",
+    "axios": "^1.8.4",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "joi": "^17.13.3",
-    "mysql2": "^3.14.0"
+    "multer": "^1.4.5-lts.2",
+    "mysql2": "^3.14.0",
+    "redis": "^4.7.0"
   },
   "devDependencies": {
     "@types/chai": "^5.2.1",
@@ -39,6 +51,7 @@
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
     "@types/mocha": "^10.0.10",
+    "@types/multer": "^1.4.12",
     "@types/node": "^22.14.1",
     "@types/supertest": "^6.0.3",
     "chai": "^5.2.0",

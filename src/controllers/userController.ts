@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as userService from '../services/userService';
 import { validateUser } from '../validations/userValidation';
 import { ApiError } from '../utils/apiError';
+import { getCache, setCache } from '../cache/cacheUtils';
 
 
 export async function createUser(req: Request, res: Response, next: NextFunction) {
@@ -43,7 +44,7 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
     next(err);  
   }
 }
-
+/*
 // Get all users with pagination
   export async function listUsersController(req: Request, res: Response, next: NextFunction) {
     try {
@@ -57,7 +58,28 @@ export async function getUserById(req: Request, res: Response, next: NextFunctio
     } catch (err) {
       next(err); 
     }
+  } */
+
+
+
+    export async function listUsersController(req: Request, res: Response) {
+      const cacheKey = 'users:list';
+      const cached = await getCache(cacheKey);
+      if (cached) return res.json(cached);
+      try {const { limit, offset } = req.query;
+  
+      const limitValue = limit ? parseInt(limit as string, 10) : undefined;
+      const offsetValue = offset ? parseInt(offset as string, 10) : undefined;
+      const result = await userService.listUsers(limitValue, offsetValue);
+      await setCache(cacheKey, result, 120);
+      res.json(result);
+    }    
+   catch (err) {
+    next(err); 
   }
+} 
+
+
 export async function updateUser(req: Request, res: Response, next: NextFunction) {
   try {
     const id = Number(req.params.id);
@@ -103,5 +125,9 @@ export async function deleteUser(req: Request, res: Response, next: NextFunction
   } catch (err) {
     next(err);
   }
+}
+
+function next(err: unknown) {
+  throw new Error('Function not implemented.');
 }
 
