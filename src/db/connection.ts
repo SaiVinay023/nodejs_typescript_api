@@ -13,7 +13,7 @@ export const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0
 });
-
+/*
 export async function query<T = any>(sql: string, values: any[] = []): Promise<T> {
   try {
     console.log("Executing SQL:", sql, "With Values:", values); // Debugging log
@@ -29,7 +29,7 @@ export async function query<T = any>(sql: string, values: any[] = []): Promise<T
   }
   
 }
-
+*/
 pool.getConnection()
   .then(() => console.log('Database connected successfully'))
   .catch((err) => console.error('Database connection failed:', err));
