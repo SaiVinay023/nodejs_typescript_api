@@ -7,12 +7,15 @@
     "test": "tests"
   },
   "compilerOptions": {
-    "module": "esnext",
-    "target": "es2017",
+    "target": "ES2020",
+    "module": "commonjs",
     "moduleResolution": "node",
-    "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "outDir": "./dist"
   },
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
@@ -36,7 +39,7 @@
   "dependencies": {
     "@deepgram/sdk": "^3.12.1",
     "arg": "^5.0.2",
-    "axios": "^1.8.4",
+    "axios": "^1.9.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",

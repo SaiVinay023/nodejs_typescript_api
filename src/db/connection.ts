@@ -4,15 +4,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const pool = mysql.createPool({
-  host: process.env.DB_HOST,
+  host: process.env.DB_HOST || '127.0.0.1',
   user: process.env.DB_USER,
-  database: process.env.DB_NAME,
   password: process.env.DB_PASS,
-  port: Number(process.env.DB_PORT) || 3306,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  connectTimeout: 10000 // <-- set 10s timeout
 });
+
 /*
 export async function query<T = any>(sql: string, values: any[] = []): Promise<T> {
   try {

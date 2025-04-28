@@ -1,15 +1,9 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import express from 'express';
+import multer from 'multer';
+import { getTranscript, uploadAudio } from '../controllers/revaiController';
+const router = express.Router();
+const upload = multer({ dest: 'uploads/' });
 
-const router = Router();
-
-router.post('/example', async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    // Your logic here
-    const result = { message: 'Success' };
-    res.status(200).json(result); // End the response cycle
-  } catch (error) {
-    next(error); // Pass errors to the error-handling middleware
-  }
-});
+router.post('/transcribe', upload.single('audio'), getTranscript);
 
 export default router;
