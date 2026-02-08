@@ -40,7 +40,7 @@ project-root/
 │
 ├── tests/                  # Jest unit tests
 ├── dist/                   # Compiled JS output
-├── .env                    # Environment variables
+├── .env.example            # Environment variables
 ├── tsconfig.json           # TypeScript config
 ├── package.json            # NPM dependencies & scripts
 ├── docker-compose.yml      # Docker config for MySQL
@@ -142,17 +142,27 @@ DB_USER=root
 DB_PASS=yourpassword
 DB_NAME=node_service" > .env
 
++# 2. Create .env
++cp .env.example .env
++# then edit .env to match your local credentials if needed
+
 # 3. Start DB / docker file present in db folder
 docker-compose up -d
 
 # 4. Init DB
-docker exec -i mysql-server mysql -uroot -pyourpassword < init.sql
++ docker exec -i mysql-server mysql -uroot -prootpassword < init.sql
 
 # 5. Run app
 npm run dev
 
 # 6. Run tests
 npm test
+
+### 7. Seed default groups
+
+```bash
+npm run seed:groups
+
 ```
 
 ---
